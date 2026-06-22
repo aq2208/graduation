@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quỳnh Hương's Graduation · VinUniversity 2026</title>
+  <meta name="description" content="You are cordially invited to Quỳnh Hương's Graduation Ceremony at VinUniversity, June 27, 2026.">
+  <meta property="og:title" content="Quỳnh Hương's Graduation · VinUniversity 2026">
+  <meta property="og:description" content="You are cordially invited to celebrate Quỳnh Hương's graduation from VinUniversity.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background music — add your file at music/background.mp3 -->
+  <audio id="bg-music" loop>
+    <source src="music/background.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Music toggle (bottom-right) -->
+  <button id="music-btn" class="music-btn" aria-label="Play music" title="Toggle background music">
+    <svg id="music-icon-on"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    <svg id="music-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+  </button>
+
+  <!-- ── NAVIGATION ───────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">QH <span>· 2026</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#details">Details</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#rsvp" class="nav-cta">RSVP</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+  <section id="home" class="hero">
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+    <div class="topo-bg" aria-hidden="true"></div>
+    <!-- Wish lanterns float here as background -->
+    <div id="wishes-sky" class="hero-wishes-sky" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <p class="hero-label">VinUniversity &nbsp;·&nbsp; Graduation Ceremony &nbsp;·&nbsp; 2026</p>
+
+      <!--
+        TO ADD HER PHOTO: replace the .photo-placeholder div with:
+        <img src="photos/portrait.jpg" alt="Quỳnh Hương">
+      -->
+      <div class="hero-photo" id="hero-photo-wrap">
+        <div class="photo-placeholder" aria-label="Graduate photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="hero-name">Quỳnh Hương</h1>
+      <p class="hero-subtitle">Graduation Ceremony</p>
+      <div class="hero-divider"></div>
+      <p class="hero-date">Saturday &nbsp;·&nbsp; June 27, 2026</p>
+    </div>
+
+    <a href="#countdown" class="scroll-chevron" aria-label="Scroll down">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- ── COUNTDOWN ─────────────────────────────────────────── -->
+  <section id="countdown" class="section section-countdown">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Countdown</h2>
+      <div class="countdown-grid" data-aos="fade-up" data-aos-delay="100" id="countdown-grid">
+        <div class="countdown-unit"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-minutes">00</div><div class="countdown-label">Min</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-seconds">00</div><div class="countdown-label">Sec</div></div>
+      </div>
+      <p class="countdown-done" id="countdown-done">🎓 The ceremony has begun!</p>
+    </div>
+  </section>
+
+  <!-- ── EVENT DETAILS ────────────────────────────────────── -->
+  <section id="details" class="section section-details">
+    <div class="container">
+      <div class="details-card" data-aos="fade-up">
+        <div class="monogram" aria-hidden="true">V</div>
+        <h2 class="details-heading">
+          You Are Cordially Invited
+          <span class="details-subheading">to celebrate the graduation of Quỳnh Hương</span>
+        </h2>
+        <ul class="details-list">
+          <li>
+            <span class="detail-icon" aria-hidden="true">📅</span>
+            <div><span class="detail-main">Saturday, June 27, 2026</span></div>
+          </li>
+          <li>
+            <span class="detail-icon" aria-hidden="true">🕐</span>
+            <div><span class="detail-main">11:30 AM – 12:30 PM (GMT+7)</span></div>
+          </li>
+          <li>
+            <span class="detail-icon" aria-hidden="true">📍</span>
+            <div>
+              <span class="detail-main">Auditorium, B Building, VinUniversity</span>
+              <span class="detail-sub">Vinhomes Ocean Park, Gia Lâm, Hanoi</span>
+            </div>
+          </li>
+        </ul>
+        <div class="details-ctas">
+          <a href="https://www.facebook.com/events/1713496173169905/" target="_blank" rel="noopener" class="btn-outline">
+            📘 &nbsp;Facebook Event
+          </a>
+          <a href="https://drive.google.com/file/d/1zmIWPyEcXO_Q60DaiTrWZy-8vHocTuBX/view" target="_blank" rel="noopener" class="btn-outline">
+            📄 &nbsp;Graduation Guide
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ───────────────────────────────────────────── -->
+  <section id="gallery" class="section section-gallery">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Moments</h2>
+      <p class="gallery-hint" data-aos="fade-up" data-aos-delay="40" id="gallery-hint">
+        Share your photos in the RSVP below — they'll appear here!
+      </p>
+      <!-- Gallery items are populated dynamically by JS -->
+      <div class="gallery-grid" id="gallery-grid" data-aos="fade-up" data-aos-delay="80"></div>
+    </div>
+  </section>
+
+  <!-- ── RSVP ──────────────────────────────────────────────── -->
+  <section id="rsvp" class="section section-rsvp">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">RSVP</h2>
+      <p class="rsvp-subtitle" data-aos="fade-up" data-aos-delay="60">
+        Let us know you're coming — leave a wish and share a memory!
+      </p>
+
+      <div class="rsvp-card" data-aos="fade-up" data-aos-delay="120">
+        <form id="rsvp-form" novalidate>
+
+          <div class="form-group">
+            <label for="rsvp-name">Your Name</label>
+            <input type="text" id="rsvp-name" name="name" required placeholder="Your name here">
+          </div>
+
+          <div class="form-group">
+            <label for="rsvp-message">Your Wish for Quỳnh Hương</label>
+            <textarea id="rsvp-message" name="message" rows="3"
+              placeholder="Congratulations! Wishing you all the best..."></textarea>
+          </div>
+
+          <!-- Image upload -->
+          <div class="form-group">
+            <label>
+              Share a Memory Photo
+              <span class="label-optional">— optional, one or more</span>
+            </label>
+            <div class="file-drop" id="file-drop">
+              <input type="file" id="memory-files" accept="image/jpeg,image/png,image/webp,image/gif"
+                multiple aria-label="Upload photos">
+              <span class="file-icon" aria-hidden="true">📷</span>
+              <span class="file-hint">Drop photos here or <u>browse</u></span>
+              <span class="file-size-note">JPG / PNG / WEBP · max 8 MB each</span>
+            </div>
+            <div class="file-preview" id="file-preview"></div>
+          </div>
+
+          <!-- Upload progress -->
+          <div class="upload-progress" id="upload-progress" style="display:none">
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+            <span class="progress-label" id="progress-label">Uploading photos...</span>
+          </div>
+
+          <button type="submit" class="btn-submit" id="rsvp-submit">
+            <span class="btn-text">Send My Wish &nbsp;🏮</span>
+            <span class="btn-loading" aria-hidden="true">Sending...</span>
+          </button>
+        </form>
+
+        <div class="rsvp-success" id="rsvp-success">
+          <div class="success-icon">🎓</div>
+          <p class="success-heading">Thank you!</p>
+          <p class="success-sub">See you there — your wish is now floating above ✨</p>
+        </div>
+
+        <p class="rsvp-contact">
+          Or contact directly: <a href="tel:+84368310829">+84 368 310 829</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer class="footer">
+    <p class="footer-school">VINUNIVERSITY &nbsp;·&nbsp; HANOI, VIETNAM</p>
+    <div class="footer-rule"></div>
+    <p class="footer-love">With love, for Quỳnh Hương</p>
+    <p class="footer-year">2026</p>
+  </footer>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <!-- Other deps -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
