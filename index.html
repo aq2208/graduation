@@ -1,225 +1,428 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quỳnh Hương's Graduation · VinUniversity 2026</title>
-  <meta name="description" content="You are cordially invited to Quỳnh Hương's Graduation Ceremony at VinUniversity, June 27, 2026.">
-  <meta property="og:title" content="Quỳnh Hương's Graduation · VinUniversity 2026">
-  <meta property="og:description" content="You are cordially invited to celebrate Quỳnh Hương's graduation from VinUniversity.">
+  <title>Quỳnh Hương · Tốt Nghiệp 2026</title>
+  <meta name="description" content="Trân trọng kính mời bạn đến dự lễ tốt nghiệp của Phan Nữ Quỳnh Hương · VinUniversity · 27/6/2026">
+  <meta property="og:title" content="Quỳnh Hương · Graduation · VinUniversity 2026">
+  <meta property="og:description" content="Cordially invited to celebrate the graduation of Phan Nữ Quỳnh Hương at VinUniversity, June 27 2026.">
   <meta property="og:type" content="website">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
 
-  <!-- Background music — add your file at music/background.mp3 -->
+  <!-- Background music -->
   <audio id="bg-music" loop>
     <source src="music/background.mp3" type="audio/mpeg">
   </audio>
-
-  <!-- Music toggle (bottom-right) -->
-  <button id="music-btn" class="music-btn" aria-label="Play music" title="Toggle background music">
-    <svg id="music-icon-on"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-    <svg id="music-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+  <button id="music-btn" class="music-btn" aria-label="Play music" title="Toggle music">
+    <svg id="music-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+    </svg>
+    <svg id="music-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="display:none">
+      <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      <line x1="2" y1="2" x2="22" y2="22"/>
+    </svg>
   </button>
 
-  <!-- ── NAVIGATION ───────────────────────────────────────── -->
-  <nav id="navbar">
-    <div class="nav-inner">
-      <a href="#home" class="nav-logo">QH <span>· 2026</span></a>
-      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links" id="nav-links" role="list">
-        <li><a href="#details">Details</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#rsvp" class="nav-cta">RSVP</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!-- Page background -->
+  <div class="page-bg">
 
-  <!-- ── HERO ─────────────────────────────────────────────── -->
-  <section id="home" class="hero">
-    <canvas id="particle-canvas" aria-hidden="true"></canvas>
-    <div class="topo-bg" aria-hidden="true"></div>
-    <!-- Wish lanterns float here as background -->
-    <div id="wishes-sky" class="hero-wishes-sky" aria-hidden="true"></div>
+    <!-- SVG defs for hydrangea flowers (shared across all svg uses) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <g id="hf">
+          <circle cx="0"    cy="-8"   r="7" fill="#edf0df"></circle>
+          <circle cx="7.5"  cy="-2.5" r="7" fill="#edf0df"></circle>
+          <circle cx="4.6"  cy="6.5"  r="7" fill="#edf0df"></circle>
+          <circle cx="-4.6" cy="6.5"  r="7" fill="#edf0df"></circle>
+          <circle cx="-7.5" cy="-2.5" r="7" fill="#edf0df"></circle>
+          <circle cx="0"    cy="0"    r="2.6" fill="#cdb86a"></circle>
+        </g>
+      </defs>
+    </svg>
 
-    <div class="hero-content">
-      <p class="hero-label">VinUniversity &nbsp;·&nbsp; Graduation Ceremony &nbsp;·&nbsp; 2026</p>
+    <!-- ══ STAGE (880 × 1180, scaled to fit) ══ -->
+    <div id="stage">
 
-      <!--
-        TO ADD HER PHOTO: replace the .photo-placeholder div with:
-        <img src="photos/portrait.jpg" alt="Quỳnh Hương">
-      -->
-      <div class="hero-photo" id="hero-photo-wrap">
-        <div class="photo-placeholder" aria-label="Graduate photo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        </div>
-      </div>
-
-      <h1 class="hero-name">Quỳnh Hương</h1>
-      <p class="hero-subtitle">Graduation Ceremony</p>
-      <div class="hero-divider"></div>
-      <p class="hero-date">Saturday &nbsp;·&nbsp; June 27, 2026</p>
-    </div>
-
-    <a href="#countdown" class="scroll-chevron" aria-label="Scroll down">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <polyline points="6 9 12 15 18 9"/>
+      <!-- Greenery stem — top-left -->
+      <svg width="230" height="300" viewBox="0 0 150 200"
+           style="position:absolute;left:-26px;top:-34px;z-index:3;" aria-hidden="true">
+        <path d="M120 6 C 80 40, 55 95, 40 195" stroke="#9aa472" stroke-width="1.4" fill="none"/>
+        <g fill="#8a9760" opacity="0.85">
+          <ellipse cx="98"  cy="34"  rx="18" ry="6.8" transform="rotate(-28 98 34)"/>
+          <ellipse cx="78"  cy="66"  rx="19" ry="6.8" transform="rotate(-20 78 66)"/>
+          <ellipse cx="62"  cy="100" rx="18" ry="6.4" transform="rotate(-12 62 100)"/>
+          <ellipse cx="51"  cy="134" rx="16" ry="6"   transform="rotate(-6 51 134)"/>
+          <ellipse cx="46"  cy="166" rx="13" ry="5"   transform="rotate(2 46 166)"/>
+          <ellipse cx="112" cy="52"  rx="14" ry="5.4" transform="rotate(20 112 52)"/>
+          <ellipse cx="92"  cy="86"  rx="15" ry="5.4" transform="rotate(28 92 86)"/>
+          <ellipse cx="76"  cy="120" rx="13" ry="5"   transform="rotate(34 76 120)"/>
+        </g>
       </svg>
-    </a>
-  </section>
 
-  <!-- ── COUNTDOWN ─────────────────────────────────────────── -->
-  <section id="countdown" class="section section-countdown">
-    <div class="container">
-      <h2 class="section-title" data-aos="fade-up">Countdown</h2>
-      <div class="countdown-grid" data-aos="fade-up" data-aos-delay="100" id="countdown-grid">
-        <div class="countdown-unit"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Days</div></div>
-        <div class="countdown-unit"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Hours</div></div>
-        <div class="countdown-unit"><div class="countdown-num" id="cd-minutes">00</div><div class="countdown-label">Min</div></div>
-        <div class="countdown-unit"><div class="countdown-num" id="cd-seconds">00</div><div class="countdown-label">Sec</div></div>
-      </div>
-      <p class="countdown-done" id="countdown-done">🎓 The ceremony has begun!</p>
-    </div>
-  </section>
-
-  <!-- ── EVENT DETAILS ────────────────────────────────────── -->
-  <section id="details" class="section section-details">
-    <div class="container">
-      <div class="details-card" data-aos="fade-up">
-        <div class="monogram" aria-hidden="true">V</div>
-        <h2 class="details-heading">
-          You Are Cordially Invited
-          <span class="details-subheading">to celebrate the graduation of Quỳnh Hương</span>
-        </h2>
-        <ul class="details-list">
-          <li>
-            <span class="detail-icon" aria-hidden="true">📅</span>
-            <div><span class="detail-main">Saturday, June 27, 2026</span></div>
-          </li>
-          <li>
-            <span class="detail-icon" aria-hidden="true">🕐</span>
-            <div><span class="detail-main">11:30 AM – 12:30 PM (GMT+7)</span></div>
-          </li>
-          <li>
-            <span class="detail-icon" aria-hidden="true">📍</span>
-            <div>
-              <span class="detail-main">Auditorium, B Building, VinUniversity</span>
-              <span class="detail-sub">Vinhomes Ocean Park, Gia Lâm, Hanoi</span>
+      <!-- Interactive Envelope with Photo Card -->
+      <div class="envelope-wrapper" style="position:absolute;left:438px;top:108px;width:406px;height:280px;transform:rotate(2.2deg);z-index:1;">
+        <div class="envelope">
+          
+          <!-- Back of the envelope (liner) -->
+          <div class="envelope-back" style="position:absolute;inset:0;background:#efeadb;border:1px solid #ded4ab;box-shadow:inset 0 0 20px rgba(0,0,0,0.05);overflow:hidden;">
+            <!-- Inner pattern/liner gradient -->
+            <div style="position:absolute;inset:8px;border:1px solid #e9dfb5;background:linear-gradient(135deg, #efeadb 0%, #e5debe 100%);">
+              <!-- Inner shadow to simulate physical pocket depth and darkness inside the envelope cavity -->
+              <div style="position:absolute;inset:0;box-shadow:inset 0 -50px 60px rgba(0,0,0,0.15), inset 0 0 15px rgba(0,0,0,0.05);pointer-events:none;"></div>
             </div>
-          </li>
-        </ul>
-        <div class="details-ctas">
-          <a href="https://www.facebook.com/events/1713496173169905/" target="_blank" rel="noopener" class="btn-outline">
-            📘 &nbsp;Facebook Event
-          </a>
-          <a href="https://drive.google.com/file/d/1zmIWPyEcXO_Q60DaiTrWZy-8vHocTuBX/view" target="_blank" rel="noopener" class="btn-outline">
-            📄 &nbsp;Graduation Guide
-          </a>
+          </div>
+          
+          <!-- Card container to clip the bottom of the card and prevent it from sticking out below the envelope -->
+          <div style="position:absolute;inset:0;pointer-events:none;clip-path:inset(-300px -50px 0px -50px);z-index:3;">
+            <!-- The slide-out photo card (height adjusted to 340px to support a longer slide-up animation) -->
+            <div class="envelope-card" style="position:absolute;left:18px;top:10px;width:370px;height:340px;background:#fcfaf2;box-shadow:0 6px 16px rgba(0,0,0,0.15);padding:10px 10px 20px;display:flex;flex-direction:column;pointer-events:auto;">
+              <!-- Fixed height image wrapper to restore original aspect ratio (240px height) -->
+              <div style="height:240px;width:100%;overflow:hidden;position:relative;background:#efeadb;">
+                <img src="assets/quynh-huong.jpg" alt="Quỳnh Hương at VinUniversity"
+                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <!-- Polaroid caption -->
+              <div style="text-align:center;margin-top:6px;font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;color:#8a9760;text-transform:uppercase;">
+                Phan Nữ Quỳnh Hương &middot; Class of 2026
+              </div>
+              <!-- Empty spacer that stays hidden in the pocket to allow taller card height -->
+              <div style="flex:1;"></div>
+            </div>
+          </div>
+          
+          <!-- Top flap (flips around top edge, lengthened to 75% height) -->
+          <div class="envelope-top-flap" style="position:absolute;inset:0;pointer-events:none;clip-path:polygon(0 0, 100% 0, 50% 75%);">
+            <!-- Outer flap (visible when closed, original cream color) -->
+            <div class="flap-outer" style="position:absolute;inset:0;background:linear-gradient(to bottom, #fbf8f0 0%, #ebe7d6 100%);pointer-events:none;">
+              <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 406 280" aria-hidden="true">
+                <path d="M 0,0 L 203,210 L 406,0" stroke="#ded4ab" stroke-width="1.2" fill="none"/>
+              </svg>
+            </div>
+            <!-- Inner flap / liner (visible when open, cream liner) -->
+            <div class="flap-inner" style="position:absolute;inset:0;background:linear-gradient(to bottom, #efeadb 0%, #e0d7b3 100%);pointer-events:none;">
+              <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 406 280" aria-hidden="true">
+                <path d="M 0,0 L 203,210 L 406,0" stroke="#cbbfa0" stroke-width="1.2" fill="none"/>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Front pocket shadow layer (z-index: 4) - placed behind the pocket face to project the shadow INSIDE onto the card -->
+          <div style="position:absolute;inset:0;z-index:4;pointer-events:none;">
+            <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 406 280" aria-hidden="true">
+              <!-- Soft ambient shadow cast by the pocket top edge (warm tint, wider blur) -->
+              <path d="M 0,0 L 203,210 L 406,0" stroke="#3d3319" stroke-opacity="0.25" stroke-width="16" fill="none" style="filter: blur(8px); mix-blend-mode: multiply;"/>
+              <!-- Sharp contact shadow cast by the pocket top edge (immediate edge depth) -->
+              <path d="M 0,0 L 203,210 L 406,0" stroke="black" stroke-opacity="0.32" stroke-width="4" fill="none" style="filter: blur(2px); mix-blend-mode: multiply;"/>
+            </svg>
+          </div>
+
+          <!-- Front pocket (flat sheet covering the bottom of the envelope with a matching V-cut at 75% height) (z-index: 5) -->
+          <div class="envelope-pocket" style="position:absolute;inset:0;background:linear-gradient(to top, #f3efe2 40%, #e8e4d5 100%);clip-path:polygon(0 0, 50% 75%, 100% 0, 100% 100%, 0 100%);z-index:5;pointer-events:none;box-shadow: 0 -2px 10px rgba(0,0,0,0.05);">
+            <!-- Highlight SVG overlay for the V-cut pocket edge (rendered on top of the pocket) -->
+            <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 406 280" aria-hidden="true">
+              <!-- Highlights on the pocket top edge -->
+              <path d="M 0,0 L 203,210 L 406,0" stroke="white" stroke-opacity="0.45" stroke-width="1.2" fill="none"/>
+              <!-- Very subtle outer border for realism -->
+              <rect x="0.5" y="0.5" width="405" height="279" fill="none" stroke="#ded4ab" stroke-width="1" />
+            </svg>
+          </div>
+          
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ── GALLERY ───────────────────────────────────────────── -->
-  <section id="gallery" class="section section-gallery">
-    <div class="container">
-      <h2 class="section-title" data-aos="fade-up">Moments</h2>
-      <p class="gallery-hint" data-aos="fade-up" data-aos-delay="40" id="gallery-hint">
-        Share your photos in the RSVP below — they'll appear here!
-      </p>
-      <!-- Gallery items are populated dynamically by JS -->
-      <div class="gallery-grid" id="gallery-grid" data-aos="fade-up" data-aos-delay="80"></div>
-    </div>
-  </section>
+      <!-- Small greenery sprig tucked by envelope — top-right -->
+      <svg width="120" height="150" viewBox="0 0 150 200"
+           style="position:absolute;left:792px;top:60px;z-index:4;transform:scaleX(-1) rotate(6deg);" aria-hidden="true">
+        <path d="M120 6 C 80 40, 55 95, 40 195" stroke="#9aa472" stroke-width="1.6" fill="none"/>
+        <g fill="#8a9760" opacity="0.9">
+          <ellipse cx="98"  cy="34"  rx="16" ry="6"   transform="rotate(-28 98 34)"/>
+          <ellipse cx="78"  cy="70"  rx="17" ry="6"   transform="rotate(-20 78 70)"/>
+          <ellipse cx="62"  cy="106" rx="15" ry="5.6" transform="rotate(-12 62 106)"/>
+          <ellipse cx="108" cy="56"  rx="12" ry="4.6" transform="rotate(22 108 56)"/>
+          <ellipse cx="90"  cy="92"  rx="13" ry="4.6" transform="rotate(30 90 92)"/>
+        </g>
+      </svg>
 
-  <!-- ── RSVP ──────────────────────────────────────────────── -->
-  <section id="rsvp" class="section section-rsvp">
-    <div class="container">
-      <h2 class="section-title" data-aos="fade-up">RSVP</h2>
-      <p class="rsvp-subtitle" data-aos="fade-up" data-aos-delay="60">
-        Let us know you're coming — leave a wish and share a memory!
-      </p>
+      <!-- Announcement card — upper-left -->
+      <div class="card" style="left:60px;top:104px;width:368px;height:498px;transform:rotate(-2deg);z-index:2;">
+        <div class="card-inner-border" aria-hidden="true"></div>
+        <div style="padding:46px 38px;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;color:#4a5230;">
+          <div class="tag-label">With great joy we announce</div>
+          <div style="font-size:16px;letter-spacing:1px;color:#5a6139;margin-top:18px;">the graduation of</div>
+          <div class="script-name">Phan Nữ<br>Quỳnh Hương</div>
+          <div class="tag-small" style="margin-top:6px;">Bachelor &middot; VinUniversity</div>
 
-      <div class="rsvp-card" data-aos="fade-up" data-aos-delay="120">
-        <form id="rsvp-form" novalidate>
-
-          <div class="form-group">
-            <label for="rsvp-name">Your Name</label>
-            <input type="text" id="rsvp-name" name="name" required placeholder="Your name here">
+          <div class="ornament-row" style="margin:22px 0 18px;width:70%;">
+            <span class="ornament-line"></span>
+            <span class="ornament-dot">&#10047;</span>
+            <span class="ornament-line"></span>
           </div>
 
-          <div class="form-group">
-            <label for="rsvp-message">Your Wish for Quỳnh Hương</label>
-            <textarea id="rsvp-message" name="message" rows="3"
-              placeholder="Congratulations! Wishing you all the best..."></textarea>
+          <div style="font-size:15px;line-height:1.6;color:#5a6139;">
+            The commencement ceremony<br>will be held at
+          </div>
+          <div style="font-size:17px;letter-spacing:1px;color:#4a5230;margin-top:10px;line-height:1.45;">
+            Auditorium, B Building<br>
+            <span style="font-size:14px;color:#8a9760;">VinUniversity, Hanoi</span>
           </div>
 
-          <!-- Image upload -->
-          <div class="form-group">
-            <label>
-              Share a Memory Photo
-              <span class="label-optional">— optional, one or more</span>
+          <div style="margin-top:auto;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:#8a7434;">
+            Saturday &middot; June 27 &middot; 2026
+          </div>
+        </div>
+      </div>
+
+      <!-- Wax seal -->
+      <div class="wax-seal" style="left:412px;top:525px;" aria-hidden="true">
+        <div class="wax-seal-inner">QH</div>
+      </div>
+
+      <!-- Calla lily — right edge -->
+      <svg width="120" height="210" viewBox="0 0 120 210"
+           style="position:absolute;left:798px;top:300px;z-index:4;transform:rotate(16deg);" aria-hidden="true">
+        <path d="M64 95 C 78 130, 80 170, 74 205" stroke="#7e8a58" stroke-width="3.5" fill="none"/>
+        <path d="M58 18 C 26 26, 20 74, 52 96 C 60 86, 84 92, 92 56 C 96 30, 80 14, 58 18 Z" fill="#f6f4ea"/>
+        <path d="M58 18 C 26 26, 20 74, 52 96" fill="none" stroke="#e2ddc8" stroke-width="1.4"/>
+        <ellipse cx="56" cy="58" rx="5" ry="18" fill="#e3c45f" transform="rotate(6 56 58)"/>
+      </svg>
+
+      <!-- Invitation card — lower-right -->
+      <div class="card" style="left:438px;top:380px;width:392px;height:574px;transform:rotate(1.6deg);z-index:3;">
+        <div class="card-inner-border" aria-hidden="true"></div>
+        <div style="padding:42px 40px;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;color:#4a5230;">
+          <div class="script-monogram">QH</div>
+          <div class="tag-label" style="margin-top:12px;">Cordially invites you</div>
+          <div style="font-size:16px;color:#5a6139;margin-top:10px;line-height:1.5;">
+            to celebrate this milestone<br>together with family &amp; friends
+          </div>
+
+          <div class="ornament-row" style="margin:22px 0;width:64%;">
+            <span class="ornament-line"></span>
+            <span class="ornament-dot">&#10070;</span>
+            <span class="ornament-line"></span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0 20px;align-items:center;width:100%;">
+            <div style="text-align:right;">
+              <div class="detail-label">Date</div>
+              <div class="detail-val">June 27<br>2026</div>
+            </div>
+            <div style="background:#d3c9a2;width:1px;height:62px;"></div>
+            <div style="text-align:left;">
+              <div class="detail-label">Time</div>
+              <div class="detail-val">9:00<br>&ndash;&nbsp;11:30</div>
+            </div>
+          </div>
+          <div class="tag-small" style="margin-top:8px;">Saturday &middot; GMT+7</div>
+
+          <div style="margin:20px 0 0;font-size:16px;line-height:1.55;color:#5a6139;">
+            Auditorium, B Building<br>
+            <span style="color:#4a5230;">VinUniversity</span><br>
+            <span style="font-size:13px;color:#8a9760;">Vinhomes Ocean Park, Gia Lâm, Hanoi</span>
+          </div>
+
+          <div style="margin-top:auto;display:flex;width:100%;border-top:1px solid #e2d9b8;padding-top:16px;">
+            <div style="flex:1;">
+              <div style="font-size:17px;color:#8a7434;">7:30 &ndash; 8:30</div>
+              <div class="detail-label" style="margin-top:2px;">Check-in</div>
+            </div>
+            <div style="width:1px;background:#e2d9b8;"></div>
+            <div style="flex:1;padding-left:20px;">
+              <div style="font-size:17px;color:#8a7434;">9:00 &ndash; 11:30</div>
+              <div class="detail-label" style="margin-top:2px;">Ceremony</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hydrangea cluster — lower-left -->
+      <svg width="250" height="226" viewBox="0 0 210 190"
+           style="position:absolute;left:-34px;top:858px;z-index:4;" aria-hidden="true">
+        <g fill="#7e8a58" opacity="0.85">
+          <ellipse cx="40"  cy="150" rx="34" ry="14" transform="rotate(-28 40 150)"/>
+          <ellipse cx="170" cy="150" rx="34" ry="14" transform="rotate(28 170 150)"/>
+          <ellipse cx="105" cy="174" rx="30" ry="13"/>
+        </g>
+        <g fill="#edf0df">
+          <use href="#hf" x="70"  y="55"/><use href="#hf" x="105" y="48"/><use href="#hf" x="140" y="58"/>
+          <use href="#hf" x="55"  y="85"/><use href="#hf" x="90"  y="80"/><use href="#hf" x="123" y="80"/><use href="#hf" x="155" y="88"/>
+          <use href="#hf" x="72"  y="112"/><use href="#hf" x="105" y="110"/><use href="#hf" x="138" y="112"/>
+          <use href="#hf" x="90"  y="138"/><use href="#hf" x="120" y="138"/>
+          <use href="#hf" x="105" y="30"/>
+        </g>
+      </svg>
+
+      <!-- Hydrangea cluster — right edge -->
+      <svg width="210" height="190" viewBox="0 0 210 190"
+           style="position:absolute;left:686px;top:892px;z-index:5;" aria-hidden="true">
+        <g fill="#7e8a58" opacity="0.85">
+          <ellipse cx="40"  cy="150" rx="30" ry="12" transform="rotate(-28 40 150)"/>
+          <ellipse cx="170" cy="150" rx="30" ry="12" transform="rotate(28 170 150)"/>
+        </g>
+        <g fill="#edf0df">
+          <use href="#hf" x="70"  y="55"/><use href="#hf" x="105" y="48"/><use href="#hf" x="140" y="58"/>
+          <use href="#hf" x="60"  y="86"/><use href="#hf" x="92"  y="82"/><use href="#hf" x="124" y="82"/><use href="#hf" x="152" y="88"/>
+          <use href="#hf" x="78"  y="114"/><use href="#hf" x="110" y="112"/><use href="#hf" x="140" y="113"/>
+        </g>
+      </svg>
+
+      <!-- Calla lily — centre-left -->
+      <svg width="110" height="190" viewBox="0 0 120 210"
+           style="position:absolute;left:304px;top:756px;z-index:4;transform:rotate(-18deg);" aria-hidden="true">
+        <path d="M64 95 C 78 130, 80 170, 74 205" stroke="#7e8a58" stroke-width="3.5" fill="none"/>
+        <path d="M58 18 C 26 26, 20 74, 52 96 C 60 86, 84 92, 92 56 C 96 30, 80 14, 58 18 Z" fill="#f6f4ea"/>
+        <path d="M58 18 C 26 26, 20 74, 52 96" fill="none" stroke="#e2ddc8" stroke-width="1.4"/>
+        <ellipse cx="56" cy="58" rx="5" ry="18" fill="#e3c45f" transform="rotate(6 56 58)"/>
+      </svg>
+
+      <!-- Location pill — links to Google Maps -->
+      <a href="https://www.google.com/maps/place/C%E1%BB%95ng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+VinUni/@20.9910474,105.9435927,17z"
+         target="_blank" rel="noopener"
+         class="venue-pill"
+         style="left:78px;top:628px;width:292px;">
+        <div class="venue-pill-label">Google map</div>
+        <div class="venue-pill-main">The Venue &#8599;</div>
+      </a>
+
+      <!-- RSVP cartouche button -->
+      <button id="rsvp-open-btn" type="button"
+              class="rsvp-cartouche"
+              style="left:78px;top:712px;width:292px;"
+              aria-haspopup="dialog">
+        <div class="rsvp-cartouche-inner">
+          <div class="rsvp-script">R.S.V.P</div>
+          <div class="rsvp-sub">&amp; send your wishes &#10022;</div>
+        </div>
+      </button>
+
+      <!-- Save the Date + countdown -->
+      <div style="position:absolute;left:74px;top:998px;z-index:6;">
+        <div class="save-date-label">Save the Date</div>
+        <div class="countdown-row">
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-days">00</div>
+            <div class="countdown-lbl">Days</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-hours">00</div>
+            <div class="countdown-lbl">Hours</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-mins">00</div>
+            <div class="countdown-lbl">Minutes</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <div class="countdown-num" id="cd-secs">00</div>
+            <div class="countdown-lbl">Seconds</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /stage -->
+  </div><!-- /page-bg -->
+
+  <!-- ══ RSVP MODAL ══ -->
+  <div id="modal-overlay" class="modal-overlay"
+       role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+
+    <div id="modal-box" class="modal-box">
+      <div class="modal-inner-border" aria-hidden="true"></div>
+      <button id="modal-close" class="modal-close" type="button" aria-label="Close">&times;</button>
+
+      <!-- Form view -->
+      <div id="modal-form-wrap" class="modal-pad">
+        <div style="text-align:center;">
+          <div class="tag-label">Kindly respond</div>
+          <div class="modal-heading" id="modal-heading">RSVP &amp; Leave a Wish</div>
+          <p style="font-size:15px;color:#8a9760;margin:8px auto 0;max-width:380px;line-height:1.5;">
+            Let us know if you can join, and leave a note or a memory for Quỳnh Hương.
+          </p>
+        </div>
+
+        <form id="rsvp-form" novalidate
+              style="margin-top:26px;display:flex;flex-direction:column;gap:20px;">
+
+          <label class="field-wrap">
+            <span class="field-lbl">Your name</span>
+            <input type="text" id="f-name" name="name" required
+                   placeholder="Full name" class="field-input">
+          </label>
+
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <span class="field-lbl">Will you attend?</span>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <button type="button" class="attend-btn" data-val="yes" id="btn-yes">
+                <span class="radio-ring"><span class="radio-fill"></span></span>
+                <span class="attend-text">Joyfully accepts</span>
+              </button>
+              <button type="button" class="attend-btn" data-val="no" id="btn-no">
+                <span class="radio-ring"><span class="radio-fill"></span></span>
+                <span class="attend-text">Regretfully declines</span>
+              </button>
+            </div>
+          </div>
+
+          <label class="field-wrap">
+            <span class="field-lbl">Phone / contact</span>
+            <input type="text" id="f-phone" name="phone"
+                   placeholder="So we can reach you" class="field-input">
+          </label>
+
+          <label class="field-wrap">
+            <span class="field-lbl">A wish for Quỳnh Hương</span>
+            <textarea id="f-wishes" name="wishes" rows="3"
+                      placeholder="Write a few warm words..."
+                      class="field-textarea"></textarea>
+          </label>
+
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <span class="field-lbl">A memory photo <span style="font-style:italic;text-transform:none;letter-spacing:0;">(optional)</span></span>
+            <label class="photo-label" id="photo-label">
+              <span style="font-size:17px;color:#ad8e59;">&#8682;</span>
+              <span style="font-size:15px;color:#8a9760;">Choose an image to share</span>
+              <input type="file" id="f-photo" accept="image/*" style="display:none;">
             </label>
-            <div class="file-drop" id="file-drop">
-              <input type="file" id="memory-files" accept="image/jpeg,image/png,image/webp,image/gif"
-                multiple aria-label="Upload photos">
-              <span class="file-icon" aria-hidden="true">📷</span>
-              <span class="file-hint">Drop photos here or <u>browse</u></span>
-              <span class="file-size-note">JPG / PNG / WEBP · max 8 MB each</span>
-            </div>
-            <div class="file-preview" id="file-preview"></div>
+            <span id="photo-display" class="photo-display" style="display:none;"></span>
           </div>
 
-          <!-- Upload progress -->
-          <div class="upload-progress" id="upload-progress" style="display:none">
-            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-            <span class="progress-label" id="progress-label">Uploading photos...</span>
-          </div>
-
-          <button type="submit" class="btn-submit" id="rsvp-submit">
-            <span class="btn-text">Send My Wish &nbsp;🏮</span>
-            <span class="btn-loading" aria-hidden="true">Sending...</span>
+          <button type="submit" id="submit-btn" class="submit-btn">
+            <span id="submit-text">Send my response</span>
+            <span id="submit-loader" style="display:none;">Sending&#8230;</span>
           </button>
+
+          <p style="text-align:center;font-size:12px;color:#a7ad8e;margin:0;font-style:italic;">
+            Your message goes only to Quỳnh Hương &middot; not shown publicly
+          </p>
         </form>
-
-        <div class="rsvp-success" id="rsvp-success">
-          <div class="success-icon">🎓</div>
-          <p class="success-heading">Thank you!</p>
-          <p class="success-sub">See you there — your wish is now floating above ✨</p>
-        </div>
-
-        <p class="rsvp-contact">
-          Or contact directly: <a href="tel:+84368310829">+84 368 310 829</a>
-        </p>
       </div>
+
+      <!-- Success view -->
+      <div id="modal-success" class="modal-pad" style="display:none;">
+        <div style="text-align:center;padding:14px 0 8px;">
+          <div class="success-ring">&#10003;</div>
+          <div class="modal-thanks">Thank you!</div>
+          <p style="font-size:17px;line-height:1.65;color:#5a6139;margin:14px auto 0;max-width:360px;">
+            Your response has been received. It means the world to have you celebrate
+            this milestone with Quỳnh Hương.
+          </p>
+          <button type="button" id="modal-close-2" class="close-success-btn">Close</button>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
 
-  <!-- ── FOOTER ────────────────────────────────────────────── -->
-  <footer class="footer">
-    <p class="footer-school">VINUNIVERSITY &nbsp;·&nbsp; HANOI, VIETNAM</p>
-    <div class="footer-rule"></div>
-    <p class="footer-love">With love, for Quỳnh Hương</p>
-    <p class="footer-year">2026</p>
-  </footer>
-
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
-
-  <!-- Other deps -->
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>
