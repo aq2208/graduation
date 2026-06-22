@@ -21,9 +21,15 @@
   create table if not exists rsvp_submissions (
     id          uuid default gen_random_uuid() primary key,
     name        text not null,
+    attending   text not null, -- 'yes' or 'no'
+    phone       text,
     message     text,
     created_at  timestamptz default now()
   );
+
+  -- RUN THIS IF YOU ALREADY CREATED THE TABLE TO ADD MISSING COLUMNS:
+  -- alter table rsvp_submissions add column if not exists attending text;
+  -- alter table rsvp_submissions add column if not exists phone text;
 
   -- Memory photos (linked to an RSVP)
   create table if not exists memories (

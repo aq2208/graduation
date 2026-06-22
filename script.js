@@ -139,6 +139,11 @@ document.getElementById('rsvp-form').addEventListener('submit', async e => {
     return;
   }
 
+  if (!attending) {
+    alert("Vui lòng chọn phản hồi tham dự (Joyfully accepts hoặc Regretfully declines)!");
+    return;
+  }
+
   const submitBtn   = document.getElementById('submit-btn');
   const submitText  = document.getElementById('submit-text');
   const submitLoader = document.getElementById('submit-loader');
@@ -152,7 +157,7 @@ document.getElementById('rsvp-form').addEventListener('submit', async e => {
       /* Insert RSVP row */
       const { data: rsvp, error: rsvpErr } = await db
         .from('rsvp_submissions')
-        .insert({ name, message: wishes || null })
+        .insert({ name, attending, phone: phone || null, message: wishes || null })
         .select('id')
         .single();
       if (rsvpErr) throw rsvpErr;
