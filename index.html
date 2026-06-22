@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
 
@@ -36,11 +36,11 @@
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
       <defs>
         <g id="hf">
-          <circle cx="0"    cy="-8"   r="7" fill="#edf0df"></circle>
-          <circle cx="7.5"  cy="-2.5" r="7" fill="#edf0df"></circle>
-          <circle cx="4.6"  cy="6.5"  r="7" fill="#edf0df"></circle>
-          <circle cx="-4.6" cy="6.5"  r="7" fill="#edf0df"></circle>
-          <circle cx="-7.5" cy="-2.5" r="7" fill="#edf0df"></circle>
+          <circle cx="0"    cy="-8"   r="7" fill="url(#hydrangea-petal-grad)"></circle>
+          <circle cx="7.5"  cy="-2.5" r="7" fill="url(#hydrangea-petal-grad)"></circle>
+          <circle cx="4.6"  cy="6.5"  r="7" fill="url(#hydrangea-petal-grad)"></circle>
+          <circle cx="-4.6" cy="6.5"  r="7" fill="url(#hydrangea-petal-grad)"></circle>
+          <circle cx="-7.5" cy="-2.5" r="7" fill="url(#hydrangea-petal-grad)"></circle>
           <circle cx="0"    cy="0"    r="2.6" fill="#cdb86a"></circle>
         </g>
       </defs>
@@ -97,6 +97,13 @@
             <stop offset="50%" stop-color="#e7c049" />
             <stop offset="100%" stop-color="#b58d23" />
           </linearGradient>
+
+          <!-- Hydrangea Petal Gradient -->
+          <radialGradient id="hydrangea-petal-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="70%" stop-color="#f5f7eb"/>
+            <stop offset="100%" stop-color="#d6dbbe"/>
+          </radialGradient>
         </defs>
       </svg>
 
@@ -341,15 +348,25 @@
         </div>
       </div>
 
-      <!-- Hydrangea cluster — lower-left -->
+      <!-- Hydrangea cluster — lower-left (shifted left to left:-90px; top:868px to avoid covering the Save the Date text) -->
       <svg width="250" height="226" viewBox="0 0 210 190"
-           style="position:absolute;left:-34px;top:858px;z-index:4;" aria-hidden="true">
-        <g fill="#7e8a58" opacity="0.85">
-          <ellipse cx="40"  cy="150" rx="34" ry="14" transform="rotate(-28 40 150)"/>
-          <ellipse cx="170" cy="150" rx="34" ry="14" transform="rotate(28 170 150)"/>
-          <ellipse cx="105" cy="174" rx="30" ry="13"/>
+           style="position:absolute;left:-90px;top:868px;z-index:4;filter:url(#foliage-shadow);" aria-hidden="true">
+        <!-- Pointed leaves with veins and gradients -->
+        <g opacity="0.95">
+          <g transform="translate(40, 150) rotate(-28)">
+            <path d="M -34 0 Q 0 -14 34 0 Q 0 14 -34 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -34 0 L 30 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(170, 150) rotate(28)">
+            <path d="M -34 0 Q 0 -14 34 0 Q 0 14 -34 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -34 0 L 30 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(105, 174)">
+            <path d="M -30 0 Q 0 -13 30 0 Q 0 13 -30 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -30 0 L 26 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
         </g>
-        <g fill="#edf0df">
+        <g>
           <use href="#hf" x="70"  y="55"/><use href="#hf" x="105" y="48"/><use href="#hf" x="140" y="58"/>
           <use href="#hf" x="55"  y="85"/><use href="#hf" x="90"  y="80"/><use href="#hf" x="123" y="80"/><use href="#hf" x="155" y="88"/>
           <use href="#hf" x="72"  y="112"/><use href="#hf" x="105" y="110"/><use href="#hf" x="138" y="112"/>
@@ -360,12 +377,19 @@
 
       <!-- Hydrangea cluster — right edge -->
       <svg width="210" height="190" viewBox="0 0 210 190"
-           style="position:absolute;left:686px;top:892px;z-index:5;" aria-hidden="true">
-        <g fill="#7e8a58" opacity="0.85">
-          <ellipse cx="40"  cy="150" rx="30" ry="12" transform="rotate(-28 40 150)"/>
-          <ellipse cx="170" cy="150" rx="30" ry="12" transform="rotate(28 170 150)"/>
+           style="position:absolute;left:686px;top:892px;z-index:5;filter:url(#foliage-shadow);" aria-hidden="true">
+        <!-- Pointed leaves with veins and gradients -->
+        <g opacity="0.95">
+          <g transform="translate(40, 150) rotate(-28)">
+            <path d="M -30 0 Q 0 -12 30 0 Q 0 12 -30 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -30 0 L 26 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(170, 150) rotate(28)">
+            <path d="M -30 0 Q 0 -12 30 0 Q 0 12 -30 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -30 0 L 26 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
         </g>
-        <g fill="#edf0df">
+        <g>
           <use href="#hf" x="70"  y="55"/><use href="#hf" x="105" y="48"/><use href="#hf" x="140" y="58"/>
           <use href="#hf" x="60"  y="86"/><use href="#hf" x="92"  y="82"/><use href="#hf" x="124" y="82"/><use href="#hf" x="152" y="88"/>
           <use href="#hf" x="78"  y="114"/><use href="#hf" x="110" y="112"/><use href="#hf" x="140" y="113"/>
@@ -374,11 +398,19 @@
 
       <!-- Calla lily — centre-left -->
       <svg width="110" height="190" viewBox="0 0 120 210"
-           style="position:absolute;left:304px;top:756px;z-index:4;transform:rotate(-18deg);" aria-hidden="true">
-        <path d="M64 95 C 78 130, 80 170, 74 205" stroke="#7e8a58" stroke-width="3.5" fill="none"/>
-        <path d="M58 18 C 26 26, 20 74, 52 96 C 60 86, 84 92, 92 56 C 96 30, 80 14, 58 18 Z" fill="#f6f4ea"/>
-        <path d="M58 18 C 26 26, 20 74, 52 96" fill="none" stroke="#e2ddc8" stroke-width="1.4"/>
-        <ellipse cx="56" cy="58" rx="5" ry="18" fill="#e3c45f" transform="rotate(6 56 58)"/>
+           style="position:absolute;left:304px;top:756px;z-index:4;transform:rotate(-18deg);filter:url(#foliage-shadow);" aria-hidden="true">
+        <!-- Stem with gradient -->
+        <path d="M64 95 C 78 130, 80 170, 74 205" stroke="url(#stem-grad)" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+        <!-- Main Petal (Spathe) with white-to-green gradient -->
+        <path d="M58 18 C 26 26, 20 74, 52 96 C 60 86, 84 92, 92 56 C 96 30, 80 14, 58 18 Z" fill="url(#calla-petal-grad)"/>
+        <!-- Deep internal throat shadow -->
+        <path d="M58 18 C 26 26, 20 74, 52 96 C 56 80, 58 50, 58 18 Z" fill="url(#calla-inner-grad)"/>
+        <!-- Inner fold crease line -->
+        <path d="M58 18 C 26 26, 20 74, 52 96" fill="none" stroke="#ded4ab" stroke-width="1.2"/>
+        <!-- Textured Spadix (flower rod) with gradient -->
+        <ellipse cx="56" cy="58" rx="4.5" ry="18" fill="url(#calla-spadix-grad)" transform="rotate(6 56 58)"/>
+        <!-- Spadix highlight for 3D realism -->
+        <ellipse cx="54.5" cy="54" rx="1.5" ry="8" fill="#ffffff" fill-opacity="0.4" transform="rotate(6 56 58)"/>
       </svg>
 
       <!-- Location pill — links to Google Maps -->
