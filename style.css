@@ -407,11 +407,13 @@ body {
 .modal-close:hover { color: #4a5230; }
 
 .modal-heading {
-  font-family: 'Burgues Script', 'Bellet', 'ED Drayton', 'Dancing Script', cursive;
-  font-size: 44px;
-  color: #5b6336;
-  margin-top: 4px;
-  line-height: 1.05;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #4a5230;
+  margin-top: 8px;
+  line-height: 1.25;
+  letter-spacing: 1px;
 }
 
 /* ── FORM FIELDS ─────────────────────────────────────────────── */
@@ -568,10 +570,13 @@ body {
 }
 
 .modal-thanks {
-  font-family: 'Burgues Script', 'Bellet', 'ED Drayton', 'Dancing Script', cursive;
-  font-size: 46px;
-  color: #5b6336;
-  line-height: 1;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #4a5230;
+  line-height: 1.25;
+  letter-spacing: 1px;
+  margin-top: 10px;
 }
 
 .close-success-btn {
