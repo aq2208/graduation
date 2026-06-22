@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -49,19 +49,96 @@
     <!-- ══ STAGE (880 × 1180, scaled to fit) ══ -->
     <div id="stage">
 
+      <!-- Shared SVG Definitions for Foliage/Floral realism -->
+      <svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+        <defs>
+          <!-- Soft drop shadow for foliage -->
+          <filter id="foliage-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="3" dy="6" stdDeviation="4" flood-color="#141a0b" flood-opacity="0.35"/>
+          </filter>
+          
+          <!-- Leaf Gradient: Dark dusky green to light warm sage -->
+          <linearGradient id="leaf-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#465131" />
+            <stop offset="60%" stop-color="#7a8d56" />
+            <stop offset="100%" stop-color="#9aac75" />
+          </linearGradient>
+          
+          <linearGradient id="leaf-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3d472b" />
+            <stop offset="70%" stop-color="#697b48" />
+            <stop offset="100%" stop-color="#8ba063" />
+          </linearGradient>
+          
+          <!-- Stem Gradient -->
+          <linearGradient id="stem-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#808f58" />
+            <stop offset="100%" stop-color="#556238" />
+          </linearGradient>
+
+          <!-- Calla lily Petal Gradient -->
+          <linearGradient id="calla-petal-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="35%" stop-color="#faf9f2" />
+            <stop offset="75%" stop-color="#ebe7d5" />
+            <stop offset="100%" stop-color="#b6c292" />
+          </linearGradient>
+
+          <!-- Calla lily Inner Shadow Gradient -->
+          <linearGradient id="calla-inner-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ebdcb2" stop-opacity="0" />
+            <stop offset="50%" stop-color="#cca843" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#4c4518" stop-opacity="0.65" />
+          </linearGradient>
+
+          <!-- Calla lily Spadix Gradient -->
+          <linearGradient id="calla-spadix-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffe385" />
+            <stop offset="50%" stop-color="#e7c049" />
+            <stop offset="100%" stop-color="#b58d23" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       <!-- Greenery stem — top-left -->
       <svg width="230" height="300" viewBox="0 0 150 200"
-           style="position:absolute;left:-26px;top:-34px;z-index:3;" aria-hidden="true">
-        <path d="M120 6 C 80 40, 55 95, 40 195" stroke="#9aa472" stroke-width="1.4" fill="none"/>
-        <g fill="#8a9760" opacity="0.85">
-          <ellipse cx="98"  cy="34"  rx="18" ry="6.8" transform="rotate(-28 98 34)"/>
-          <ellipse cx="78"  cy="66"  rx="19" ry="6.8" transform="rotate(-20 78 66)"/>
-          <ellipse cx="62"  cy="100" rx="18" ry="6.4" transform="rotate(-12 62 100)"/>
-          <ellipse cx="51"  cy="134" rx="16" ry="6"   transform="rotate(-6 51 134)"/>
-          <ellipse cx="46"  cy="166" rx="13" ry="5"   transform="rotate(2 46 166)"/>
-          <ellipse cx="112" cy="52"  rx="14" ry="5.4" transform="rotate(20 112 52)"/>
-          <ellipse cx="92"  cy="86"  rx="15" ry="5.4" transform="rotate(28 92 86)"/>
-          <ellipse cx="76"  cy="120" rx="13" ry="5"   transform="rotate(34 76 120)"/>
+           style="position:absolute;left:-26px;top:-34px;z-index:3;filter:url(#foliage-shadow);" aria-hidden="true">
+        <!-- Stem using gradient -->
+        <path d="M120 6 C 80 40, 55 95, 40 195" stroke="url(#stem-grad)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <g opacity="0.95">
+          <!-- Pointed leaves with veins and gradients -->
+          <g transform="translate(98, 34) rotate(-28)">
+            <path d="M -18 0 Q 0 -6.8 18 0 Q 0 6.8 -18 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -18 0 L 16 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(78, 66) rotate(-20)">
+            <path d="M -19 0 Q 0 -6.8 19 0 Q 0 6.8 -19 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -19 0 L 17 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(62, 100) rotate(-12)">
+            <path d="M -18 0 Q 0 -6.4 18 0 Q 0 6.4 -18 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -18 0 L 16 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(51, 134) rotate(-6)">
+            <path d="M -16 0 Q 0 -6 16 0 Q 0 6 -16 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -16 0 L 14 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(46, 166) rotate(2)">
+            <path d="M -13 0 Q 0 -5 13 0 Q 0 5 -13 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -13 0 L 11 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(112, 52) rotate(20)">
+            <path d="M -14 0 Q 0 -5.4 14 0 Q 0 5.4 -14 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -14 0 L 12 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(92, 86) rotate(28)">
+            <path d="M -15 0 Q 0 -5.4 15 0 Q 0 5.4 -15 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -15 0 L 13 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(76, 120) rotate(34)">
+            <path d="M -13 0 Q 0 -5 13 0 Q 0 5 -13 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -13 0 L 11 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
         </g>
       </svg>
 
@@ -138,14 +215,29 @@
 
       <!-- Small greenery sprig tucked by envelope — top-right -->
       <svg width="120" height="150" viewBox="0 0 150 200"
-           style="position:absolute;left:792px;top:60px;z-index:4;transform:scaleX(-1) rotate(6deg);" aria-hidden="true">
-        <path d="M120 6 C 80 40, 55 95, 40 195" stroke="#9aa472" stroke-width="1.6" fill="none"/>
-        <g fill="#8a9760" opacity="0.9">
-          <ellipse cx="98"  cy="34"  rx="16" ry="6"   transform="rotate(-28 98 34)"/>
-          <ellipse cx="78"  cy="70"  rx="17" ry="6"   transform="rotate(-20 78 70)"/>
-          <ellipse cx="62"  cy="106" rx="15" ry="5.6" transform="rotate(-12 62 106)"/>
-          <ellipse cx="108" cy="56"  rx="12" ry="4.6" transform="rotate(22 108 56)"/>
-          <ellipse cx="90"  cy="92"  rx="13" ry="4.6" transform="rotate(30 90 92)"/>
+           style="position:absolute;left:792px;top:60px;z-index:4;transform:scaleX(-1) rotate(6deg);filter:url(#foliage-shadow);" aria-hidden="true">
+        <path d="M120 6 C 80 40, 55 95, 40 195" stroke="url(#stem-grad)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <g opacity="0.95">
+          <g transform="translate(98, 34) rotate(-28)">
+            <path d="M -16 0 Q 0 -6 16 0 Q 0 6 -16 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -16 0 L 14 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(78, 70) rotate(-20)">
+            <path d="M -17 0 Q 0 -6 17 0 Q 0 6 -17 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -17 0 L 15 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(62, 106) rotate(-12)">
+            <path d="M -15 0 Q 0 -5.6 15 0 Q 0 5.6 -15 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -15 0 L 13 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(108, 56) rotate(22)">
+            <path d="M -12 0 Q 0 -4.6 12 0 Q 0 4.6 -12 0 Z" fill="url(#leaf-grad-2)"/>
+            <path d="M -12 0 L 10 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
+          <g transform="translate(90, 92) rotate(30)">
+            <path d="M -13 0 Q 0 -4.6 13 0 Q 0 4.6 -13 0 Z" fill="url(#leaf-grad-1)"/>
+            <path d="M -13 0 L 11 0" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8" fill="none"/>
+          </g>
         </g>
       </svg>
 
@@ -185,11 +277,19 @@
 
       <!-- Calla lily — right edge -->
       <svg width="120" height="210" viewBox="0 0 120 210"
-           style="position:absolute;left:798px;top:300px;z-index:4;transform:rotate(16deg);" aria-hidden="true">
-        <path d="M64 95 C 78 130, 80 170, 74 205" stroke="#7e8a58" stroke-width="3.5" fill="none"/>
-        <path d="M58 18 C 26 26, 20 74, 52 96 C 60 86, 84 92, 92 56 C 96 30, 80 14, 58 18 Z" fill="#f6f4ea"/>
-        <path d="M58 18 C 26 26, 20 74, 52 96" fill="none" stroke="#e2ddc8" stroke-width="1.4"/>
-        <ellipse cx="56" cy="58" rx="5" ry="18" fill="#e3c45f" transform="rotate(6 56 58)"/>
+           style="position:absolute;left:798px;top:300px;z-index:4;transform:rotate(16deg);filter:url(#foliage-shadow);" aria-hidden="true">
+        <!-- Stem with gradient -->
+        <path d="M64 95 C 78 130, 80 170, 74 205" stroke="url(#stem-grad)" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+        <!-- Main Petal (Spathe) with white-to-green gradient -->
+        <path d="M58 18 C 26 26, 20 74, 52 96 C 60 86, 84 92, 92 56 C 96 30, 80 14, 58 18 Z" fill="url(#calla-petal-grad)"/>
+        <!-- Deep internal throat shadow -->
+        <path d="M58 18 C 26 26, 20 74, 52 96 C 56 80, 58 50, 58 18 Z" fill="url(#calla-inner-grad)"/>
+        <!-- Inner fold crease line -->
+        <path d="M58 18 C 26 26, 20 74, 52 96" fill="none" stroke="#ded4ab" stroke-width="1.2"/>
+        <!-- Textured Spadix (flower rod) with gradient -->
+        <ellipse cx="56" cy="58" rx="4.5" ry="18" fill="url(#calla-spadix-grad)" transform="rotate(6 56 58)"/>
+        <!-- Spadix highlight for 3D realism -->
+        <ellipse cx="54.5" cy="54" rx="1.5" ry="8" fill="#ffffff" fill-opacity="0.4" transform="rotate(6 56 58)"/>
       </svg>
 
       <!-- Invitation card — lower-right -->
@@ -421,8 +521,16 @@
     </div>
   </div>
 
+  <!-- ══ CARD ZOOM LIGHTBOX OVERLAY ══ -->
+  <div id="zoom-overlay" style="display:none;position:fixed;inset:0;background:rgba(18,20,12,0.85);backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:16px;">
+    <!-- Close button ("X") -->
+    <button id="zoom-close" type="button" style="position:absolute;top:20px;right:20px;background:none;border:none;color:#f7f3e8;font-size:48px;cursor:pointer;line-height:1;width:48px;height:48px;display:flex;align-items:center;justify-content:center;z-index:10002;opacity:0.8;transition:opacity 0.2s;" aria-label="Close zoom">&times;</button>
+    <!-- Container where the card is temporarily moved -->
+    <div id="zoom-content" style="position:relative;width:100%;max-width:440px;display:flex;justify-content:center;align-items:center;z-index:10001;"></div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
-  <script src="script.js?v=8"></script>
+  <script src="script.js?v=9"></script>
 </body>
 </html>

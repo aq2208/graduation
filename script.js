@@ -253,3 +253,96 @@ document.getElementById('rsvp-form').addEventListener('submit', async e => {
     env.classList.toggle('open');
   });
 })();
+
+/* ── CARD ZOOM INTERACTION ────────────────────────────────────── */
+(function () {
+  const cards = document.querySelectorAll('.card');
+  const zoomOverlay = document.getElementById('zoom-overlay');
+  const zoomContent = document.getElementById('zoom-content');
+  const zoomClose = document.getElementById('zoom-close');
+  let activeCard = null;
+  let activePlaceholder = null;
+  let activeStyle = '';
+
+  if (!zoomOverlay || !zoomContent || !zoomClose) return;
+
+  function openZoom(card) {
+    if (activeCard) return;
+
+    activeCard = card;
+    activeStyle = card.getAttribute('style');
+
+    // Create placeholder in stage
+    activePlaceholder = document.createElement('div');
+    activePlaceholder.className = 'card-placeholder';
+    activePlaceholder.style.display = 'none';
+    card.parentNode.insertBefore(activePlaceholder, card);
+
+    // Add zoomed class and move to overlay
+    card.classList.add('zoomed-state');
+    zoomContent.appendChild(card);
+
+    // Calculate responsive scale based on viewport size
+    const w = card.offsetWidth || 392;
+    const h = card.offsetHeight || 574;
+    const scale = Math.min((window.innerWidth - 32) / w, (window.innerHeight - 64) / h, 1.2);
+
+    card.style.position = 'relative';
+    card.style.left = '0';
+    card.style.top = '0';
+    card.style.margin = '0';
+    card.style.transform = `scale(${scale})`;
+    card.style.transformOrigin = 'center center';
+    card.style.boxShadow = '0 24px 60px rgba(0,0,0,0.65)';
+    card.style.zIndex = '10001';
+
+    // Show overlay
+    zoomOverlay.style.display = 'flex';
+  }
+
+  function closeZoom() {
+    if (!activeCard || !activePlaceholder) return;
+
+    // Restore card to original position in stage
+    activePlaceholder.parentNode.insertBefore(activeCard, activePlaceholder);
+    activePlaceholder.remove();
+
+    // Restore classes and styles
+    activeCard.classList.remove('zoomed-state');
+    activeCard.setAttribute('style', activeStyle);
+
+    // Clean up references
+    activeCard = null;
+    activePlaceholder = null;
+    activeStyle = '';
+
+    // Hide overlay
+    zoomOverlay.style.display = 'none';
+  }
+
+  // Bind click events to cards for zoom
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Don't zoom if already zoomed, or if clicking interactive modal triggers
+      if (card.classList.contains('zoomed-state') || e.target.closest('#rsvp-open-btn') || e.target.closest('.venue-pill')) {
+        return;
+      }
+      openZoom(card);
+    });
+  });
+
+  // Bind close events
+  zoomClose.addEventListener('click', closeZoom);
+  zoomOverlay.addEventListener('click', (e) => {
+    if (e.target === zoomOverlay || e.target === zoomContent) {
+      closeZoom();
+    }
+  });
+
+  // Bind escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && zoomOverlay.style.display === 'flex') {
+      closeZoom();
+    }
+  });
+})();
