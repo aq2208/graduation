@@ -75,5 +75,5 @@
   ══════════════════════════════════════════════════════════════
 */
 
-window.SUPABASE_URL      = '';   // e.g. 'https://abcxyz.supabase.co'
-window.SUPABASE_ANON_KEY = '';   // e.g. 'eyJhbGci...'
+window.SUPABASE_URL      = 'https://aeahhgcbiafalelycigg.supabase.co';   // e.g. 'https://abcxyz.supabase.co'
+window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFlYWhoZ2NiaWFmYWxlbHljaWdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwODcyMjQsImV4cCI6MjA5NzY2MzIyNH0.kYbsltEaWE9rcDfNI7SqFHIr7fzmguNCtOknt-JJt_E';   // e.g. 'eyJhbGci...'
