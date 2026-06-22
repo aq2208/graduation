@@ -263,67 +263,174 @@ document.getElementById('rsvp-form').addEventListener('submit', async e => {
   let activeCard = null;
   let activePlaceholder = null;
   let activeStyle = '';
+  let isAnimating = false;
 
   if (!zoomOverlay || !zoomContent || !zoomClose) return;
 
   function openZoom(card) {
-    if (activeCard) return;
+    if (activeCard || isAnimating) return;
+    isAnimating = true;
 
     activeCard = card;
     activeStyle = card.getAttribute('style');
 
-    // Create placeholder in stage
+    // Get starting bounding box in stage
+    const firstRect = card.getBoundingClientRect();
+    const w = card.offsetWidth || 392;
+    const h = card.offsetHeight || 574;
+    const stageScale = firstRect.width / w;
+
+    // Create placeholder in stage to mark original slot
     activePlaceholder = document.createElement('div');
     activePlaceholder.className = 'card-placeholder';
-    activePlaceholder.style.display = 'none';
     card.parentNode.insertBefore(activePlaceholder, card);
 
-    // Add zoomed class and move to overlay
+    // Make overlay display flex with transparent background (ready to fade in)
+    zoomOverlay.style.transition = 'none';
+    zoomOverlay.style.backgroundColor = 'rgba(18,20,12,0)';
+    zoomOverlay.style.backdropFilter = 'blur(0px)';
+    zoomOverlay.style.display = 'flex';
+
+    zoomClose.style.transition = 'none';
+    zoomClose.style.opacity = '0';
+
+    // Move card to zoom content wrapper
     card.classList.add('zoomed-state');
     zoomContent.appendChild(card);
 
-    // Calculate responsive scale based on viewport size
-    const w = card.offsetWidth || 392;
-    const h = card.offsetHeight || 574;
-    const scale = Math.min((window.innerWidth - 32) / w, (window.innerHeight - 64) / h, 1.2);
-
+    // Apply temporary layout properties instantly (without transition) to measure centered rect
+    card.style.transition = 'none';
     card.style.position = 'relative';
     card.style.left = '0';
     card.style.top = '0';
     card.style.margin = '0';
-    card.style.transform = `scale(${scale})`;
+    card.style.transform = 'scale(1) rotate(0deg)';
     card.style.transformOrigin = 'center center';
-    card.style.boxShadow = '0 24px 60px rgba(0,0,0,0.65)';
+    card.style.boxShadow = 'none';
     card.style.zIndex = '10001';
 
-    // Show overlay
-    zoomOverlay.style.display = 'flex';
+    // Get final centered bounding box
+    const lastRect = card.getBoundingClientRect();
+
+    // Calculate invert deltas
+    const firstCenterX = firstRect.left + firstRect.width / 2;
+    const firstCenterY = firstRect.top + firstRect.height / 2;
+    const lastCenterX = lastRect.left + lastRect.width / 2;
+    const lastCenterY = lastRect.top + lastRect.height / 2;
+    const deltaX = firstCenterX - lastCenterX;
+    const deltaY = firstCenterY - lastCenterY;
+
+    const match = activeStyle.match(/rotate\(([^)]+)\)/);
+    const origRotate = match ? match[1] : '0deg';
+
+    // Invert: Apply translate and scale back to match starting position instantly
+    card.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${stageScale}) rotate(${origRotate})`;
+
+    // Force browser reflow to register the inverted state
+    card.offsetHeight;
+
+    // Play: transition card to final centered state and fade overlay
+    const finalScale = Math.min((window.innerWidth - 32) / w, (window.innerHeight - 64) / h, 1.2);
+    
+    card.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.45s ease';
+    card.style.transform = `translate(0, 0) scale(${finalScale}) rotate(0deg)`;
+    card.style.boxShadow = '0 24px 60px rgba(0,0,0,0.65)';
+
+    zoomOverlay.style.transition = 'background-color 0.45s ease, backdrop-filter 0.45s ease';
+    zoomOverlay.style.backgroundColor = 'rgba(18,20,12,0.85)';
+    zoomOverlay.style.backdropFilter = 'blur(8px)';
+
+    zoomClose.style.transition = 'opacity 0.45s ease';
+    zoomClose.style.opacity = '0.8';
+
+    setTimeout(() => {
+      isAnimating = false;
+    }, 460);
   }
 
   function closeZoom() {
-    if (!activeCard || !activePlaceholder) return;
+    if (!activeCard || !activePlaceholder || isAnimating) return;
+    isAnimating = true;
 
-    // Restore card to original position in stage
-    activePlaceholder.parentNode.insertBefore(activeCard, activePlaceholder);
-    activePlaceholder.remove();
+    const card = activeCard;
+    const placeholder = activePlaceholder;
 
-    // Restore classes and styles
-    activeCard.classList.remove('zoomed-state');
-    activeCard.setAttribute('style', activeStyle);
+    // Get current zoomed rect
+    const firstRect = card.getBoundingClientRect();
+    const w = card.offsetWidth || 392;
+    const h = card.offsetHeight || 574;
+    const finalScale = Math.min((window.innerWidth - 32) / w, (window.innerHeight - 64) / h, 1.2);
 
-    // Clean up references
-    activeCard = null;
-    activePlaceholder = null;
-    activeStyle = '';
+    // Temporarily insert card back into stage to measure target positions
+    placeholder.parentNode.insertBefore(card, placeholder);
+    card.classList.remove('zoomed-state');
+    card.setAttribute('style', activeStyle);
 
-    // Hide overlay
-    zoomOverlay.style.display = 'none';
+    const lastRect = card.getBoundingClientRect();
+    const stageScale = lastRect.width / w;
+
+    // Move back to overlay instantly for flight animation
+    card.classList.add('zoomed-state');
+    zoomContent.appendChild(card);
+
+    card.style.transition = 'none';
+    card.style.position = 'relative';
+    card.style.left = '0';
+    card.style.top = '0';
+    card.style.margin = '0';
+    card.style.transform = `translate(0, 0) scale(${finalScale}) rotate(0deg)`;
+    card.style.boxShadow = '0 24px 60px rgba(0,0,0,0.65)';
+
+    // Force browser reflow
+    card.offsetHeight;
+
+    // Calculate flight deltas
+    const zoomCenterX = firstRect.left + firstRect.width / 2;
+    const zoomCenterY = firstRect.top + firstRect.height / 2;
+    const stageCenterX = lastRect.left + lastRect.width / 2;
+    const stageCenterY = lastRect.top + lastRect.height / 2;
+    const deltaX = stageCenterX - zoomCenterX;
+    const deltaY = stageCenterY - zoomCenterY;
+
+    const match = activeStyle.match(/rotate\(([^)]+)\)/);
+    const origRotate = match ? match[1] : '0deg';
+
+    // Transition card back to stage coordinates and fade out overlay
+    card.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease';
+    card.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${stageScale}) rotate(${origRotate})`;
+    card.style.boxShadow = '0 6px 16px rgba(0,0,0,0.15)';
+
+    zoomOverlay.style.transition = 'background-color 0.4s ease, backdrop-filter 0.4s ease';
+    zoomOverlay.style.backgroundColor = 'rgba(18,20,12,0)';
+    zoomOverlay.style.backdropFilter = 'blur(0px)';
+
+    zoomClose.style.transition = 'opacity 0.4s ease';
+    zoomClose.style.opacity = '0';
+
+    setTimeout(() => {
+      // Return card permanently back to stage
+      placeholder.parentNode.insertBefore(card, placeholder);
+      placeholder.remove();
+
+      card.classList.remove('zoomed-state');
+      card.setAttribute('style', activeStyle);
+
+      // Reset overlay
+      zoomOverlay.style.display = 'none';
+      zoomOverlay.style.transition = 'none';
+      zoomOverlay.style.backgroundColor = 'rgba(18,20,12,0.85)';
+      zoomOverlay.style.backdropFilter = 'blur(8px)';
+
+      activeCard = null;
+      activePlaceholder = null;
+      activeStyle = '';
+      isAnimating = false;
+    }, 410);
   }
 
   // Bind click events to cards for zoom
   cards.forEach(card => {
     card.addEventListener('click', (e) => {
-      // Don't zoom if already zoomed, or if clicking interactive modal triggers
       if (card.classList.contains('zoomed-state') || e.target.closest('#rsvp-open-btn') || e.target.closest('.venue-pill')) {
         return;
       }
