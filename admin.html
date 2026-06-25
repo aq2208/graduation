@@ -389,8 +389,8 @@
     <div class="login-card">
       <div class="login-card-border" aria-hidden="true"></div>
       <h2>RSVP Dashboard</h2>
-      <p>Nhập mã PIN để truy cập danh sách khách mời</p>
-      <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="8">
+      <p>Nhập mật khẩu để truy cập danh sách khách mời</p>
+      <input type="password" id="pin-input" class="pin-input" placeholder="Mật khẩu" maxlength="32" style="letter-spacing: 2px;">
       <button id="login-btn" class="login-btn">Đăng nhập</button>
     </div>
   </div>
@@ -445,7 +445,7 @@
   <script src="supabase-config.js"></script>
   <script>
     (function () {
-      const CORRECT_PIN = '2706'; // Default PIN: Graduation date
+      const CORRECT_PIN = 'QH_Graduation_2026_@Secured'; // Complex secure password
 
       const loginLayer = document.getElementById('login-layer');
       const dashboardLayer = document.getElementById('dashboard-layer');
@@ -468,7 +468,7 @@
           sessionStorage.setItem('rsvp_authenticated', 'true');
           unlockDashboard();
         } else {
-          alert('Sai mã PIN. Vui lòng thử lại!');
+          alert('Sai mật khẩu. Vui lòng thử lại!');
           pinInput.value = '';
           pinInput.focus();
         }
