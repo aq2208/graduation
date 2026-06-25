@@ -65,11 +65,9 @@
       margin: 0 0 24px;
     }
 
-    .pin-input {
+    .login-input {
       font-family: inherit;
-      font-size: 24px;
-      letter-spacing: 6px;
-      text-align: center;
+      font-size: 18px;
       width: 100%;
       padding: 10px;
       border: 0;
@@ -77,11 +75,11 @@
       background: transparent;
       outline: none;
       color: #4a5230;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
       transition: border-color 0.2s;
     }
 
-    .pin-input:focus {
+    .login-input:focus {
       border-color: #8a7434;
     }
 
@@ -98,10 +96,16 @@
       cursor: pointer;
       width: 100%;
       transition: background 0.2s;
+      margin-top: 12px;
     }
 
     .login-btn:hover {
       background: #4a5230;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     /* ── DASHBOARD CONTAINER ────────────────────────────────────── */
@@ -115,6 +119,7 @@
     header {
       text-align: center;
       margin-bottom: 42px;
+      position: relative;
     }
 
     header h1 {
@@ -131,6 +136,29 @@
       text-transform: uppercase;
       color: #c7bf94;
       margin: 0;
+    }
+
+    .logout-btn {
+      position: absolute;
+      right: 0;
+      top: 12px;
+      font-family: inherit;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(217, 207, 168, 0.4);
+      color: #c7bf94;
+      padding: 6px 14px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: #ecdfb4;
+      color: #3c4626;
+      border-color: #ecdfb4;
     }
 
     /* ── STATS ROW ──────────────────────────────────────────────── */
@@ -389,8 +417,9 @@
     <div class="login-card">
       <div class="login-card-border" aria-hidden="true"></div>
       <h2>RSVP Dashboard</h2>
-      <p>Nhập mật khẩu để truy cập danh sách khách mời</p>
-      <input type="password" id="pin-input" class="pin-input" placeholder="Mật khẩu" maxlength="32" style="letter-spacing: 2px;">
+      <p>Đăng nhập để xem danh sách khách mời</p>
+      <input type="email" id="email-input" class="login-input" placeholder="Email" required autocomplete="email">
+      <input type="password" id="password-input" class="login-input" placeholder="Mật khẩu" required autocomplete="current-password">
       <button id="login-btn" class="login-btn">Đăng nhập</button>
     </div>
   </div>
@@ -398,6 +427,7 @@
   <!-- ══ DASHBOARD LAYER ══ -->
   <div id="dashboard-layer" class="dashboard-container">
     <header>
+      <button id="logout-btn" class="logout-btn">Đăng xuất</button>
       <h1>Quỳnh Hương</h1>
       <p>Lễ Tốt Nghiệp · RSVP Admin</p>
     </header>
@@ -445,47 +475,23 @@
   <script src="supabase-config.js"></script>
   <script>
     (function () {
-      const CORRECT_PIN = 'QH_Graduation_2026_@Secured'; // Complex secure password
-
       const loginLayer = document.getElementById('login-layer');
       const dashboardLayer = document.getElementById('dashboard-layer');
-      const pinInput = document.getElementById('pin-input');
+      const emailInput = document.getElementById('email-input');
+      const passwordInput = document.getElementById('password-input');
       const loginBtn = document.getElementById('login-btn');
+      const logoutBtn = document.getElementById('logout-btn');
 
-      // Check existing auth
-      if (sessionStorage.getItem('rsvp_authenticated') === 'true') {
-        unlockDashboard();
-      }
-
-      // Handle login trigger
-      loginBtn.addEventListener('click', attemptLogin);
-      pinInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') attemptLogin();
-      });
-
-      function attemptLogin() {
-        if (pinInput.value === CORRECT_PIN) {
-          sessionStorage.setItem('rsvp_authenticated', 'true');
-          unlockDashboard();
-        } else {
-          alert('Sai mật khẩu. Vui lòng thử lại!');
-          pinInput.value = '';
-          pinInput.focus();
-        }
-      }
-
-      function unlockDashboard() {
-        loginLayer.style.display = 'none';
-        dashboardLayer.style.display = 'block';
-        initSupabaseAdmin();
-      }
-
-      // ── SUPABASE CLIENT LOGIC ──────────────────────────────────────
       let client = null;
       let rsvps = [];
 
+      // Bootstrapping Supabase Admin client
+      initSupabaseAdmin();
+
       async function initSupabaseAdmin() {
+        // Bypass login screen if no Supabase URL configured (fallback mode)
         if (!window.SUPABASE_URL || !window.SUPABASE_URL.trim()) {
+          unlockDashboard();
           renderFallbackLocal();
           return;
         }
@@ -493,17 +499,93 @@
         try {
           const { createClient } = window.supabase;
           client = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-          
-          await fetchAllRsvps();
-          subscribeToRealtime();
+
+          // Handle Auth state changes automatically
+          client.auth.onAuthStateChange(async (event, session) => {
+            if (session) {
+              unlockDashboard();
+              await fetchAllRsvps();
+              subscribeToRealtime();
+            } else {
+              lockDashboard();
+            }
+          });
+
+          // Check if already authenticated via active session
+          const { data: { session } } = await client.auth.getSession();
+          if (session) {
+            unlockDashboard();
+            await fetchAllRsvps();
+            subscribeToRealtime();
+          } else {
+            lockDashboard();
+          }
         } catch (err) {
-          console.error('Supabase init error:', err);
+          console.error('Supabase initialization failed:', err);
           renderFallbackLocal();
         }
       }
 
+      // Handle Authentication Actions
+      loginBtn.addEventListener('click', attemptLogin);
+      passwordInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') attemptLogin();
+      });
+      emailInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') attemptLogin();
+      });
+      logoutBtn.addEventListener('click', handleLogout);
+
+      async function attemptLogin() {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+          alert('Vui lòng điền đầy đủ Email và Mật khẩu!');
+          return;
+        }
+
+        loginBtn.disabled = true;
+        const prevText = loginBtn.textContent;
+        loginBtn.textContent = 'Đang đăng nhập...';
+
+        const { data, error } = await client.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = prevText;
+
+        if (error) {
+          alert('Đăng nhập thất bại: ' + error.message);
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      }
+
+      async function handleLogout() {
+        if (client) {
+          await client.auth.signOut();
+        } else {
+          lockDashboard();
+        }
+      }
+
+      function unlockDashboard() {
+        loginLayer.style.display = 'none';
+        dashboardLayer.style.display = 'block';
+      }
+
+      function lockDashboard() {
+        loginLayer.style.display = 'flex';
+        dashboardLayer.style.display = 'none';
+        emailInput.value = '';
+        passwordInput.value = '';
+      }
+
+      // ── DATA SYNC LOGIC ───────────────────────────────────────────
       async function fetchAllRsvps() {
-        // Fetch RSVPs and join memories (images)
         const { data, error } = await client
           .from('rsvp_submissions')
           .select('*, memories(*)')
@@ -519,12 +601,14 @@
       }
 
       function subscribeToRealtime() {
+        // Clean up any existing channels
+        client.removeAllChannels();
+
         client.channel('rsvp-admin-channel')
           .on(
             'postgres_changes',
             { event: 'INSERT', schema: 'public', table: 'rsvp_submissions' },
             async (payload) => {
-              // Fetch full row with memories on insert
               const { data: newRow, error } = await client
                 .from('rsvp_submissions')
                 .select('*, memories(*)')
@@ -532,10 +616,12 @@
                 .single();
 
               if (!error && newRow) {
-                // Prepend to array
+                // Remove duplicates if any
+                rsvps = rsvps.filter(r => r.id !== newRow.id);
                 rsvps.unshift(newRow);
                 renderDashboard();
-                // Flash the first card to indicate updates
+
+                // Subtle entry flash
                 const firstCard = document.querySelector('.guest-card');
                 if (firstCard) {
                   firstCard.style.boxShadow = '0 0 20px rgba(136, 192, 87, 0.4)';
@@ -549,7 +635,7 @@
           .subscribe();
       }
 
-      // ── RENDER SYSTEM ──────────────────────────────────────────────
+      // ── RENDERING SYSTEM ────────────────────────────────────────────
       const guestListEl = document.getElementById('guest-list');
       const statTotalEl = document.getElementById('stat-total');
       const statYesEl = document.getElementById('stat-yes');
@@ -625,7 +711,6 @@
       function renderFallbackLocal() {
         try {
           const arr = JSON.parse(localStorage.getItem('qh_rsvps') || '[]');
-          // map fields to match Supabase structure for UI rendering
           rsvps = arr.map((item, idx) => ({
             id: String(idx),
             name: item.name,
